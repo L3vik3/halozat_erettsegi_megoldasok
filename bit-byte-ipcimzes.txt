@@ -19,3 +19,129 @@ Példa LAN (200 IP-cím igény)
 4   8 16 32 64  
 2   6 14 30 62
 30 29 28 27 26 
+
+===========================RTR_Eger=======
+
+ena
+conf t 
+int gi0/1
+no sh
+exit 
+int gi0/1.13
+enc dot1Q 13
+ip add 192.168.13.1 255.255.255.192
+no sh 
+exit
+int gi0/1.23
+enc dot1Q 23
+ip add 192.168.13.65 255.255.255.240
+no sh 
+exit
+
+ip dhcp pool PC 
+network 192.168.13.0 255.255.255.192
+default-router 192.168.13.1
+dns-server 25.36.14.254
+exit
+ip dhcp ex 192.168.13.1 192.168.13.13
+do wr
+
+router ospf 1 
+network 172.30.30.0 0.0.0.3 area 0
+network 172.30.30.4 0.0.0.3 area 0
+network  192.168.13.64 0.0.0.15 area 0 
+network 192.168.13.0 0.0.0.63 area 0
+passive-interface gi0/1
+passive-interface gi0/1.13
+passive-interface gi0/1.23
+default-information originate 
+exit
+do wr
+
+
+
+
+=============================SW1_EGER==============
+
+ena
+conf t
+vlan 13
+name PC
+exit
+vlan 23
+name PRINTER
+exit
+int fa0/13
+sw mo acc
+sw acc vlan 13
+exit
+int range gi0/1 -2
+sw mo trunk
+exit
+do wr
+
+
+===============================SW2_EGER================
+
+ena 
+conf t 
+int fa0/13
+sw mo acc
+sw acc vlan 13
+exit
+int fa0/23
+sw mo acc
+sw acc vlan 23
+exit
+do wr
+int fa0/23
+sw port-security 
+sw port-security mac-address 0001.4243.747D
+sw port-security violation shutdown 
+exit
+do wr
+
+============================RTR_PEST===========================
+
+ena
+conf t 
+ip route 0.0.0.0 0.0.0.0 se0/0/0
+do wr
+
+router ospf 1
+no passive-interface default
+passive-interface gi0/1
+default-information originate 
+exit
+do wr 
+
+ip nat inside source static 172.30.40.2 185.65.4.4 
+int gi0/1
+ip nat inside 
+exit
+int se0/0/0
+ip nat outside
+exit
+interface Serial0/0/1
+ip nat inside 
+exit
+do wr
+
+// PAT-ot kihagytuk :( 
+access-list 1 permit any 
+ip nat inside source list 1 interface Serial0/0/0 overload
+//
+
+ipv6 UNicast-routing 
+int se0/0/0
+ipv6 add 3323::2/64
+exit
+int gi0/1 
+ipv6 add 2001:DB8:ACAD:40::1/64
+ipv6 add FE80::1 link-local 
+exit
+ipv6 route ::/0 3323::1
+do wr
+
+
+/ipv6 alapértelmezet útvonal ::/0\
