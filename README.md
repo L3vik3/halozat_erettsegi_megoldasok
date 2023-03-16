@@ -2,11 +2,11 @@
 ## 😉  TELJES CLI MEGOLDÁS!!
 
 ### Eddig munkák:
-| Neve   | Állapota: |
-| :----:   |:---------:|
-| GemNet |  Feltöltve    |
-| Bit-Byte | Feltöltve   |
-| *PIZZANET* | *Készül*| 
+| Neve:   | Állapota: | Dátum:| Szintje: |
+| :----: |:---------:| :------:| :---:|
+| GemNet |  Feltöltve    | 2020. október| emelt|
+| Bit-Byte | Feltöltve   |2021. május | emelt|
+| *PIZZANET* | *Készül*| 2021. oktober | emelt|
 
 > További hasznos oldalak: 
  - [SZIT Cisco - parancsok + magyarázat](https://szit.hu/doku.php?id=oktatas:halozat:cisco)

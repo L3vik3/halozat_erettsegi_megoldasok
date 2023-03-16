@@ -1,25 +1,3 @@
-Példa LAN (200 IP-cím igény)
-	hálózat azonosító: 172.16.0.0/24
-	alhálózati maszk: 255.255.255.0
-	használható címtartomány: 172.16.0.1 - 172.16.0.254
-	szórási cím: 172.16.0.255
-
-
-1. PC (58 IP-cím igény)
-	hálózat azonosító: 192.168.13.0/26
-	alhálózati maszk: 255.255.255.192
-	használható címtartomány: 192.168.13.1 -62
-	szórási cím: 192.168.13.63
-2. PRINTER (11 IP-cím igény)
-	hálózat azonosító: 192.168.13.64 
-	alhálózati maszk: 255.255.255.240
-	használható címtartomány: 192.168.13.65 - 78
-	szórási cím: 192.168.13.79
-
-4   8 16 32 64  
-2   6 14 30 62
-30 29 28 27 26 
-
 ===========================RTR_Eger=======
 
 ena
@@ -144,4 +122,4 @@ ipv6 route ::/0 3323::1
 do wr
 
 
-/ipv6 alapértelmezet útvonal ::/0\
+/ipv6 alapÃ©rtelmezet Ãºtvonal ::/0\
