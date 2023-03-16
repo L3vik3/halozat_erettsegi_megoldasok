@@ -4,8 +4,8 @@
 ### Eddig munkák:
 | Neve:   | Állapota: | Dátum:| Szintje: |
 | :----: |:---------:| :------:| :---:|
-| GemNet |  Feltöltve    | 2020. október| emelt|
-| Bit-Byte | Feltöltve   |2021. május | emelt|
+| GemNet |  [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/gemnet)   | 2020. október| emelt|
+| Bit-Byte | [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/bit-byte) |2021. május | emelt|
 | *PIZZANET* | *Készül*| 2021. oktober | emelt|
 
 > További hasznos oldalak: 
