@@ -1,0 +1,144 @@
+RTR_PIZZALAK
+
+ena
+conf t 
+int gi0/1
+no sh
+exit
+int gi0/1.9
+
+enc dot1Q 9 
+
+ip add 10.20.30.30 255.255.255.224
+no sh
+exit
+int gi0/1.22
+
+enc dot1Q 22
+ip add 10.20.30.34 255.255.255.252
+no sh
+exit
+do wr
+
+do sh run
+ip dhcp pool PINCER
+network 10.20.30.0 255.255.255.224
+default-router 10.20.30.30
+exit
+ip dhcp ex 10.20.30.28 10.20.30.30
+do wr
+
+router rip 
+ver 2
+no auto-summary 
+network 172.21.6.0
+network 10.20.30.0
+network 10.20.30.32
+default-information originate 
+passive-interface gi0/1
+passive-interface gi0/1.9
+passive-interface gi0/1.22
+exit
+
+===================================SW2===================
+ena
+conf t
+vlan 9 
+name PINCER
+exit
+vlan 22
+name VENDEG
+exit
+int gi0/2
+sw mo trunk 
+exit
+int fa0/22
+sw mo acc
+sw acc vlan 22
+exit
+int fa0/9 
+sw mo acc
+sw acc vlan 9
+exit
+do wr
+
+
+
+
+===============================SW1======================
+ena
+sh vlan brief
+conf t
+int gi0/1
+sw mo trunk 
+exit
+int fa0/9
+sw mo acc
+sw acc vlan 9 
+exit
+do wr
+
+
+==========================SW_IRODA==============
+ena
+conf t
+int fa0/1
+sw mo acc
+sw port-security 
+sw port-security  mac-address 0004.9AE7.58B4
+sw port-security  violation restrict 
+exit
+int vlan 1
+ip add 172.21.5.253 255.255.255.0
+no sh 
+exit
+ena pass pizzairoda
+line vty 0 5 
+password pizzairoda 
+login
+ip default-gateway 172.21.5.254
+do wr
+
+
+
+
+=============================RTR_IRODA====================
+ena
+conf t
+router rip 
+ver 2
+network 172.21.5.0 
+network 172.21.6.0
+no auto-summary 
+default-information originate 
+passive-interface gi0/1
+exit
+
+ipv6 unicast-routing 
+ip nat inside source static 172.21.5.1 187.54.20.6 
+int gi0/1
+ip nat inside
+exit
+int gi0/0
+ip nat inside
+exit
+int se0/0/0
+ip nat outside
+exit
+int se0/0/0
+ipv6 add 3300::2/64
+exit
+int gi0/1 
+ipv6 add 2055:21::1/64
+ipv6 add FE80::1 link-local
+exit
+ipv6 route ::/0 3300::1
+
+access-list 5 permit 10.20.30.0 0.0.0.31
+access-list 5 permit 10.20.30.32 0.0.0.3 
+ip route 0.0.0.0 0.0.0.0 187.54.20.1
+
+do wr
+
+
+

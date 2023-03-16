@@ -6,7 +6,7 @@
 | :----: |:---------:| :------:| :---:|
 | GemNet |  [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/gemnet)   | 2020. október| emelt|
 | Bit-Byte | [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/bit-byte) |2021. május | emelt|
-| *PIZZANET* | *Készül*| 2021. oktober | emelt|
+| PIZZANET | [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/pizzanet)| 2021. október | emelt|
 
 <hr>
 
