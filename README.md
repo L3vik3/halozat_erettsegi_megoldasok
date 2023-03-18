@@ -4,9 +4,11 @@
 ### Eddig munkák:
 | Neve:   | Állapota: | Dátum:| Szintje: |
 | :----: |:---------:| :------:| :---:|
+| GRUS_LAN | [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/grus-lan)| 2020. május | emelt|
 | GemNet |  [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/gemnet)   | 2020. október| emelt|
 | Bit-Byte | [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/bit-byte) |2021. május | emelt|
 | PIZZANET | [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/pizzanet)| 2021. október | emelt|
+
 
 <hr>
 

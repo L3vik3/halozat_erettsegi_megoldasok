@@ -1,0 +1,129 @@
+RTR_GRUS
+
+ena
+conf t
+int gi0/1
+no sh 
+exit
+int gi0/1.33
+enc dot1Q 33
+ip add 192.168.50.1 255.255.255.192
+no sh
+exit
+int gi0/1.55
+enc dot1Q 55
+ip add 192.168.50.65 255.255.255.240
+no sh
+exit
+int gi0/0
+ip add 192.168.80.1 255.255.255.252
+no sh
+exit
+do wr
+
+ip dhcp pool LYNX 
+network 192.168.50.0 255.255.255.192
+default-router 192.168.50.1 
+dns-server 172.20.5.15
+exit
+ip dhcp ex 192.168.50.1 192.168.50.13
+do wr
+
+router ospf 10
+network 192.168.50.0 0.0.0.63 area 0
+network 192.168.50.64 0.0.0.15 area 0 
+network 10.10.10.0 0.0.0.3 area 0 
+network 192.168.80.0 0.0.0.3 area 0 
+passive-interface gi0/0
+passive-interface gi0/1.33
+passive-interface gi0/1.55
+default-information originate 
+exit
+do wr
+
+
+============================SW_2_GRUS===========
+ena
+conf t
+vlan 33
+name LYNX
+exit
+vlan 55
+name VELA
+exit
+int gi0/2
+sw mo trunk 
+exit
+int fa0/13
+sw mo acc
+sw acc vlan 55
+exit
+int fa0/5
+sw mo acc
+sw acc vlan 33
+exit
+do wr
+
+
+
+===========================SW_1_GRUS===============
+ena
+conf t
+int fa0/5
+sw mo acc
+sw acc vlan 33
+exit
+int gi0/1
+sw mo trunk 
+exit
+do wr
+
+
+===================RTR_LEPUS============
+ena
+conf t
+router ospf 10
+network 172.20.5.0 0.0.0.255 area 0
+network 10.10.10.0 0.0.0.3 area 0 
+passive-interface gi0/1
+default-information originate
+exit
+do wr
+
+ip route 0.0.0.0 0.0.0.0 se0/0/1
+do wr
+ip nat inside source static 172.20.5.20 98.70.50.5
+
+access-list 1 permit any 
+ip nat inside source list 1 interface Serial0/0/1 overload 
+
+int gi0/1
+ip nat inside
+exit
+int se0/0/1
+ip nat outside
+exit
+int se0/0/0 
+ip nat inside
+exit
+do wr
+
+
+ipv6 unicast-routing
+int se0/0/1 
+ipv6 add  2020:20::1/64
+exit
+int gi0/1 
+ipv6 add 3232:30:20::1/64
+ipv6 add FE80::1 link-local
+exit
+ipv6 route ::/0 2020:20::2 
+do wr
+
+
+
+
+
+
+ 
+
