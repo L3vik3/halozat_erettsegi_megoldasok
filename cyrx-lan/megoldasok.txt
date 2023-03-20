@@ -1,0 +1,134 @@
+R_crux ============
+
+ena
+conf t 
+int gi0/1
+no sh
+exit
+int gi0/1.27
+
+enc dot1Q 27
+ip add 192.168.45.1 255.255.255.128
+no sh 
+exit
+int gi0/1.42
+
+enc dot1Q 42
+ip add 192.168.45.129 255.255.255.248
+no sh 
+exit
+
+do wr
+
+ip dhcp pool CETUS
+network 192.168.45.0 255.255.255.128
+default-router 192.168.45.1 
+dns-server 192.168.45.134
+exit
+ip dhcp ex 192.168.45.1 192.168.45.35
+do wr
+
+router ospf 1
+network 192.168.45.0 0.0.0.127 area 0
+network 192.168.45.128 0.0.0.7 area 0
+network 192.168.47.4 0.0.0.3 area 0
+passive-interface gi0/1
+passive-interface gi0/1.27
+passive-interface gi0/1.42
+default-information originate 
+exit
+
+
+S1_CRUX=====================
+
+ena
+conf t
+vlan 27
+name CETUS
+exit
+vlan 42
+name HYDRA
+exit
+
+int gi0/1
+sw mo trunk 
+exit
+
+int fa0/8
+sw mo acc
+sw acc vlan 27 
+exit
+
+int fa0/3
+sw mo trunk 
+exit
+
+do wr
+
+=========================S2_CRUX
+ena
+conf t
+
+int fa0/14
+sw mo acc
+sw acc vlan 27 
+exit
+
+int fa0/20
+sw mo acc 
+sw acc vlan 42
+exit
+
+
+=======================R_FORNAX
+ip route 0.0.0.0 0.0.0.0 45.60.78.1
+
+router ospf 1
+network 192.168.48.0 0.0.0.255 area 0
+network 192.168.47.4 0.0.0.3 area 0
+network 192.168.47.0 0.0.0.3 area 0 
+passive-interface gi0/1
+passive-interface gi0/0
+default-information originate 
+exit
+
+ip nat inside source static 192.168.48.100 45.60.78.3 
+int se0/0/1
+ip nat outside 
+exit
+int se0/0/0
+ip nat inside
+exit
+int gi0/1
+ip nat inside
+exit
+
+ip nat pool PAT 45.60.78.4 45.60.78.4 netmask 255.255.255.240
+access-list 1 permit any
+ip nat inside source list 1 pool PAT overload
+do wr
+
+
+----- access telnet -------------
+access-list 5 permit 192.168.48.20
+
+---- ssh ----------------
+ip domain-name fornax.com
+crypto key generate rsa 
+2048
+..
+..
+ip ssh version 2
+username foradmin password forpass
+
+line vty 0 4
+access-class 5 in
+login local
+transport input ssh
+ip ssh version 2
+exit
+
+ena password FOR789
+do wr
+
+

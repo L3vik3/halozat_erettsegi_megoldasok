@@ -8,6 +8,7 @@
 | GemNet |  [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/gemnet)   | 2020. október| emelt|
 | Bit-Byte | [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/bit-byte) |2021. május | emelt|
 | PIZZANET | [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/pizzanet)| 2021. október | emelt|
+| CYRX-LAN | [Feltöltve](https://github.com/L3vik3/halozat_erettsegi_megoldasok/tree/main/cyrx-lan)| 2022. május | emelt|
 
 
 <hr>
@@ -18,6 +19,6 @@
 
 <hr>
 
- ## Ötlet adó: [0l1v3rr](https://github.com/0l1v3rr)
+ ## UI Desing: [0l1v3rr](https://github.com/0l1v3rr)
 
 
